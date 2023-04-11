@@ -1,0 +1,60 @@
+import java.util.Scanner;
+
+public class AsignacionPersonal {
+    
+    public static void main(String[] args) {
+        
+        Scanner scanner = new Scanner(System.in);
+        
+        // Ingresar los datos del personal
+        System.out.print("Ingrese la cantidad de miembros del personal: ");
+        int cantidadPersonal = scanner.nextInt();
+        String[] nombres = new String[cantidadPersonal];
+        int[] horasDisponibles = new int[cantidadPersonal];
+        for (int i = 0; i < cantidadPersonal; i++) {
+            System.out.print("Ingrese el nombre del miembro " + (i + 1) + ": ");
+            nombres[i] = scanner.next();
+            System.out.print("Ingrese la cantidad horaria semanal disponible de " + nombres[i] + ": ");
+            horasDisponibles[i] = scanner.nextInt();
+        }
+        
+        // Ingresar los datos de los pacientes
+        System.out.print("Ingrese la cantidad de pacientes existentes: ");
+        int cantidadPacientes = scanner.nextInt();
+        System.out.print("Ingrese la cantidad de horas necesarias por paciente: ");
+        int horasPorPaciente = scanner.nextInt();
+        
+        // Calcular la cantidad total de horas disponibles en el personal
+        int horasTotales = 0;
+        for (int i = 0; i < cantidadPersonal; i++) {
+            horasTotales += horasDisponibles[i];
+        }
+        
+        // Calcular la cantidad de horas necesarias para atender a todos los pacientes
+        int horasNecesarias = cantidadPacientes * horasPorPaciente;
+        
+        // Calcular la cantidad de horas por miembro del personal
+        int horasPorPersonal = horasNecesarias / horasTotales;
+        
+        // Asignar las horas a cada miembro del personal
+        int horasAsignadas = 0;
+        while (horasAsignadas < horasNecesarias) {
+            for (int i = 0; i < cantidadPersonal; i++) {
+                if (horasAsignadas < horasNecesarias && horasDisponibles[i] > 0) {
+                    horasDisponibles[i]--;
+                    horasAsignadas++;
+                }
+            }
+        }
+        
+        // Mostrar los resultados de la asignación
+        System.out.println("Asignación de horas por miembro del personal:");
+        for (int i = 0; i < cantidadPersonal; i++) {
+            int horasAsignadasPersonal = horasPorPersonal;
+            if (horasAsignadas < horasNecesarias) {
+                horasAsignadasPersonal++;
+            }
+            System.out.println(nombres[i] + ": " + horasAsignadasPersonal + " horas");
+        }
+    }
+}
